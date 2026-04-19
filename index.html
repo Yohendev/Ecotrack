@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoTrack - Protótipo Navegável</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+    :root {
+        --bg-color: #f9f9f9;
+        --text-dark: #111;
+        --text-muted: #666;
+        --blue-water: #3b7a9f;
+        --yellow-energy: #eae146;
+        --btn-black: #000;
+        --btn-gray: #e6e6e6;
+        --card-bg: #fff;
+        --nav-bg: #d9d9d9;
+        --border-radius-lg: 15px;
+        --border-radius-sm: 8px;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+        background-color: #e0e5ec;
+        display: flex;
+        height: 100vh;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Container que simula o celular */
+    .smartphone {
+        width: 360px;
+        height: 780px;
+        background-color: var(--bg-color);
+        border: 12px solid #1a1a1a;
+        border-radius: 40px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Barra de Status Falsa do Topo */
+    .status-bar {
+        height: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        font-size: 12px;
+        font-weight: bold;
+        background-color: var(--bg-color);
+        z-index: 10;
+    }
+
+    .notch {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 25px;
+        background-color: #1a1a1a;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        z-index: 20;
+    }
+
+    /* Gerenciamento de Telas */
+    .screen {
+        display: none; /* Oculta todas as telas por padrão */
+        flex: 1;
+        flex-direction: column;
+        height: calc(100% - 40px);
+        position: relative;
+    }
+
+    .screen.active {
+        display: flex; /* Mostra apenas a tela ativa */
+    }
+
+    /* Área de Conteúdo Rolável */
+    .content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        padding-bottom: 80px;
+    }
+
+    .content::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Navegação e Cliques */
+    .clickable {
+        cursor: pointer;
+    }
+
+    /* Cabeçalhos Internos (Voltar, Perfil) */
+    .screen-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+    
+    .screen-header i {
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    /* Menu Inferior */
+    .bottom-nav {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 70px;
+        background-color: var(--nav-bg);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        padding: 0 10px;
+        z-index: 5;
+    }
+
+    .nav-item {
+        font-size: 24px;
+        color: var(--text-dark);
+        text-decoration: none;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .nav-item.active {
+        background-color: #b3b3b3;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .badge {
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        background-color: #5cb85c;
+        color: white;
+        font-size: 10px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Estilos Login */
+    .login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+    .logo-container { text-align: center; margin-bottom: 30px; }
+    .logo-icon { font-size: 80px; color: var(--blue-water); }
+    .logo-title { font-size: 32px; font-weight: bold; margin-top: 10px; }
+    .form-group { width: 100%; margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 12px; margin-bottom: 5px; color: var(--text-muted); }
+    .form-control { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: var(--border-radius-sm); font-size: 14px; }
+    .forgot-pwd { text-align: center; font-size: 12px; color: var(--text-muted); margin: 10px 0 20px; cursor: pointer; }
+    .btn { width: 100%; padding: 15px; border: none; border-radius: var(--border-radius-sm); font-weight: bold; font-size: 14px; cursor: pointer; margin-bottom: 10px; }
+    .btn-black { background-color: var(--btn-black); color: #fff; }
+    .btn-google { background-color: var(--btn-gray); color: var(--text-dark); display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .divider { text-align: center; font-size: 12px; color: var(--text-muted); margin: 5px 0 15px; }
+    .terms { font-size: 10px; text-align: center; color: var(--text-muted); margin-top: 20px; }
+
+    /* Estilos Home */
+    .section-title { font-size: 18px; font-weight: bold; margin: 15px 0 10px; }
+    .card { padding: 15px; border-radius: var(--border-radius-lg); margin-bottom: 10px; position: relative; overflow: hidden; }
+    .card-water { background-color: var(--blue-water); color: white; }
+    .card-energy { background-color: var(--yellow-energy); color: var(--text-dark); }
+    .card-header { display: flex; align-items: center; font-weight: bold; font-size: 16px; margin-bottom: 15px; gap: 10px; }
+    .card-info { font-size: 10px; margin-bottom: 5px; }
+    .progress-bar-container { background-color: rgba(255,255,255,0.3); height: 6px; border-radius: 3px; width: 80%; }
+    .progress-bar { background-color: #fff; height: 100%; border-radius: 3px; }
+    .arrow-right { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); font-size: 20px; cursor: pointer; }
+    .faded-card { opacity: 0.3; margin-top: -5px; }
+    .expand-btn { text-align: center; font-weight: bold; font-size: 12px; margin-bottom: 15px; cursor: pointer; }
+    .action-buttons { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 20px; }
+    .btn-action { background-color: var(--btn-gray); padding: 10px 30px; border-radius: var(--border-radius-lg); font-weight: bold; border: none; cursor: pointer; }
+    .warning-banner { background-color: #89cff0; padding: 15px; border-radius: var(--border-radius-sm); font-size: 12px; font-weight: bold; text-align: center; margin-top: 20px; display: flex; align-items: center; gap: 10px; }
+
+    /* Estilos Notificações & Listas */
+    .list-card { background-color: #e6e6e6; padding: 15px; border-radius: var(--border-radius-sm); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500;}
+    .list-card p { margin-top: 5px; font-size: 12px; font-weight: normal; }
+    .icon-green { color: #5cb85c; font-size: 18px; }
+    .btn-clear { background-color: #d9d9d9; padding: 8px 15px; border-radius: 20px; font-size: 12px; border: none; font-weight: bold; display: block; margin: 30px auto 0; cursor: pointer; }
+
+    /* Estilos Adicionar / Limites */
+    .limit-btn { display: flex; align-items: center; justify-content: space-between; padding: 20px; border-radius: var(--border-radius-lg); font-weight: bold; font-size: 16px; margin-bottom: 15px; cursor: pointer; }
+    .limit-btn.water { background-color: var(--blue-water); color: black; }
+    .limit-btn.energy { background-color: var(--yellow-energy); color: black; }
+    .limit-btn i:first-child { font-size: 30px; }
+    .limit-btn i:last-child { font-size: 24px; }
+    .limit-header { padding: 20px; border-radius: var(--border-radius-sm); display: flex; align-items: center; gap: 15px; font-weight: bold; margin-bottom: 30px; }
+    .limit-header.water { background-color: var(--blue-water); color: black; }
+    .limit-header.energy { background-color: var(--yellow-energy); color: black; }
+    .limit-header i { font-size: 30px; }
+    .input-limit { background-color: #ccc; border: none; padding: 15px; border-radius: var(--border-radius-sm); width: 100%; font-size: 14px; outline: none; }
+
+    /* Estilos Configurações & Perfil */
+    .settings-item { background-color: #fff; padding: 15px; border-radius: var(--border-radius-sm); margin-bottom: 10px; font-weight: bold; font-size: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;}
+    .toggle { width: 40px; height: 20px; background-color: #5cb85c; border-radius: 10px; position: relative; }
+    .toggle::after { content: ''; position: absolute; right: 2px; top: 2px; width: 16px; height: 16px; background-color: white; border-radius: 50%; transition: 0.3s;}
+    .toggle.off { background-color: #ccc; }
+    .toggle.off::after { right: 22px; }
+    .text-red { color: red; }
+    .profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
+    .avatar { width: 100px; height: 100px; background-color: #ccc; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 50px; color: #666; margin-bottom: 10px; }
+
+</style>
+</head>
+<body>
+
+    <div class="smartphone">
+        <div class="notch"></div>
+        <div class="status-bar"><span>21:45</span><span><i class="fas fa-signal"></i> LTE <i class="fas fa-battery-three-quarters" style="color:#5cb85c"></i></span></div>
+
+        <div id="tela-login" class="screen active">
+            <div class="content login-screen">
+                <div class="logo-container">
+                    <i class="fas fa-leaf logo-icon" style="color: #6da34d;"></i>
+                    <i class="fas fa-tint logo-icon" style="margin-left: -20px; font-size: 90px;"></i>
+                    <h1 class="logo-title">EcoTrack</h1>
+                    <p>Bem-Vindo(a)</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>Login</label>
+                    <input type="email" class="form-control" placeholder="E-mail">
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" class="form-control" placeholder="Senha">
+                </div>
+                
+                <p class="forgot-pwd">Esqueci Minha Senha</p>
+                
+                <button class="btn btn-black" onclick="navegarPara('tela-home')">Continuar</button>
+                <p class="divider">ou</p>
+                <button class="btn btn-black">Cadastre-se</button>
+                
+                <button class="btn btn-google">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" width="15" alt="Google"> Continue com Google
+                </button>
+                
+                <p class="terms">Após clicar em continuar, você concorda com nossos<br><b>Termos e condições</b> e <b>Politica de privacidade</b></p>
+            </div>
+        </div>
+
+        <div id="tela-home" class="screen">
+            <div class="content">
+                <div class="screen-header" style="justify-content: flex-end;">
+                    <i class="fas fa-user clickable" onclick="navegarPara('tela-usuario')"></i>
+                </div>
+                
+                <h2 class="section-title">Água</h2>
+                <div class="card card-water">
+                    <div class="card-header"><i class="fas fa-tint" style="color: black;"></i> Casa A</div>
+                    <div class="card-info">Última Atualização 01/12/2025</div>
+                    <div class="card-info" style="margin-bottom: 10px;">35m³ / 60m³</div>
+                    <div class="progress-bar-container"><div class="progress-bar" style="width: 60%;"></div></div>
+                    <i class="fas fa-chevron-right arrow-right" onclick="navegarPara('tela-config-agua')"></i>
+                </div>
+                <div class="card card-water faded-card">
+                    <div class="card-header"><i class="fas fa-tint"></i> Casa A</div>
+                </div>
+                <div class="expand-btn">Mais <br><i class="fas fa-chevron-down"></i></div>
+
+                <h2 class="section-title">Energia</h2>
+                <div class="card card-energy">
+                    <div class="card-header"><i class="fas fa-bolt"></i> Casa A <span style="font-size: 10px; margin-left: auto; margin-right: 20px;">consumo próximo ao limite</span></div>
+                    <div class="card-info">Última Atualização 01/12/2025 <i class="fas fa-exclamation text-red" style="float: right; margin-right: 30px; font-size: 16px;"></i></div>
+                    <div class="card-info" style="margin-bottom: 10px;">110KW/h / 125KW/h</div>
+                    <div class="progress-bar-container" style="background-color: rgba(0,0,0,0.1);"><div class="progress-bar" style="width: 85%; background-color: #fff;"></div></div>
+                    <i class="fas fa-chevron-right arrow-right" onclick="navegarPara('tela-config-energia')"></i>
+                </div>
+                <div class="card card-energy faded-card">
+                     <div class="card-header"><i class="fas fa-bolt"></i> Casa A</div>
+                </div>
+                <div class="expand-btn">Mais <br><i class="fas fa-chevron-down"></i></div>
+
+                <div class="action-buttons">
+                    <button class="btn-action" onclick="navegarPara('tela-adicionar')">Novo <i class="fas fa-plus"></i></button>
+                    <button class="btn-action" style="text-decoration: underline;">Relatórios</button>
+                </div>
+
+                <div class="warning-banner">
+                    <span>Feche a torneira enquanto não precisar, evita o desperdício e diminui a conta!</span>
+                    <i class="fas fa-exclamation" style="font-size: 20px;"></i>
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="navegarPara('tela-adicionar')"><i class="fas fa-plus"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-notificacoes')"><i class="fas fa-bell"></i><div class="badge">1</div></div>
+                <div class="nav-item active"><i class="fas fa-home"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-configuracoes')"><i class="fas fa-cog"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-ajuda')"><i class="fas fa-question"></i></div>
+            </div>
+        </div>
+
+        <div id="tela-notificacoes" class="screen">
+            <div class="content">
+                <div class="screen-header">
+                    <span class="clickable" onclick="navegarPara('tela-home')"><i class="fas fa-reply"></i> Voltar</span>
+                    <i class="fas fa-user clickable" onclick="navegarPara('tela-usuario')"></i>
+                </div>
+                
+                <div class="list-card">
+                    <div>
+                        <div>Atenção!</div>
+                        <p>Limite do consumo de energia quase atingido!</p>
+                    </div>
+                    <i class="fas fa-exclamation-circle icon-green"></i>
+                </div>
+                
+                <div class="list-card">
+                    <div>
+                        <div>Relatório</div>
+                        <p>Aqui está seu relatório do consumo de água!</p>
+                    </div>
+                </div>
+
+                <button class="btn-clear">Limpar notificações</button>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="navegarPara('tela-adicionar')"><i class="fas fa-plus"></i></div>
+                <div class="nav-item active" style="background-color: #b3b3b3;"><i class="fas fa-bell"></i><div class="badge">1</div></div>
+                <div class="nav-item" onclick="navegarPara('tela-home')"><i class="fas fa-home"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-configuracoes')"><i class="fas fa-cog"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-ajuda')"><i class="fas fa-question"></i></div>
+            </div>
+        </div>
+
+        <div id="tela-adicionar" class="screen">
+            <div class="content">
+                <div class="screen-header">
+                    <span class="clickable" onclick="navegarPara('tela-home')"><i class="fas fa-reply"></i> Voltar</span>
+                    <i class="fas fa-user clickable" onclick="navegarPara('tela-usuario')"></i>
+                </div>
+                
+                <div class="limit-btn water" onclick="navegarPara('tela-config-agua')">
+                    <i class="fas fa-tint" style="color: black;"></i>
+                    <span>Adicionar limite de água</span>
+                    <i class="fas fa-plus"></i>
+                </div>
+
+                <div class="limit-btn energy" onclick="navegarPara('tela-config-energia')">
+                    <i class="fas fa-bolt" style="color: black;"></i>
+                    <span>Adicionar limite de energia</span>
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item active"><i class="fas fa-plus"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-notificacoes')"><i class="fas fa-bell"></i><div class="badge">1</div></div>
+                <div class="nav-item" onclick="navegarPara('tela-home')"><i class="fas fa-home"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-configuracoes')"><i class="fas fa-cog"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-ajuda')"><i class="fas fa-question"></i></div>
+            </div>
+        </div>
+
+        <div id="tela-configuracoes" class="screen">
+            <div class="content">
+                <div class="screen-header">
+                    <span class="clickable" onclick="navegarPara('tela-home')"><i class="fas fa-reply"></i> Voltar</span>
+                    <i class="fas fa-user clickable" onclick="navegarPara('tela-usuario')"></i>
+                </div>
+                
+                <div class="settings-item" onclick="alternarToggle(this.querySelector('.toggle'))">
+                    Notificações <div class="toggle"></div>
+                </div>
+                <div class="settings-item" onclick="alternarToggle(this.querySelector('.toggle'))">
+                    Tema (Claro/Escuro) <div class="toggle off"></div>
+                </div>
+                <div class="settings-item">Privacidade</div>
+                <div class="settings-item">Sobre o app</div>
+
+                <div class="settings-item text-red" style="margin-top: 250px;" onclick="navegarPara('tela-login')">
+                    Sair da conta
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="navegarPara('tela-adicionar')"><i class="fas fa-plus"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-notificacoes')"><i class="fas fa-bell"></i><div class="badge">1</div></div>
+                <div class="nav-item" onclick="navegarPara('tela-home')"><i class="fas fa-home"></i></div>
+                <div class="nav-item active"><i class="fas fa-cog"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-ajuda')"><i class="fas fa-question"></i></div>
+            </div>
+        </div>
+
+        <div id="tela-ajuda" class="screen">
+            <div class="content">
+                <div class="screen-header">
+                    <span class="clickable" onclick="navegarPara('tela-home')"><i class="fas fa-reply"></i> Voltar</span>
+                    <i class="fas fa-user clickable" onclick="navegarPara('tela-usuario')"></i>
+                </div>
+                
+                <div class="settings-item">Significado de cada unidade de medida</div>
+                <div class="settings-item">Como adicionar um limite?</div>
+                <div class="settings-item">Como conectar a IOT?</div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="navegarPara('tela-adicionar')"><i class="fas fa-plus"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-notificacoes')"><i class="fas fa-bell"></i><div class="badge">1</div></div>
+                <div class="nav-item" onclick="navegarPara('tela-home')"><i class="fas fa-home"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-configuracoes')"><i class="fas fa-cog"></i></div>
+                <div class="nav-item active"><i class="fas fa-question"></i></div>
+            </div>
+        </div>
+
+        <div id="tela-usuario" class="screen">
+            <div class="content">
+                <div class="screen-header">
+                    <span class="clickable" onclick="navegarPara('tela-home')"><i class="fas fa-reply"></i> Voltar</span>
+                    <i class="fas fa-user"></i>
+                </div>
+                
+                <div class="profile-header">
+                    <div class="avatar"><i class="fas fa-user"></i></div>
+                    <h3>João</h3>
+                </div>
+
+                <div class="settings-item">Editar dados</div>
+                <div class="settings-item">Compartilhar perfil</div>
+                <div class="settings-item">Meus relatórios</div>
+
+                <div class="settings-item text-red" style="margin-top: 80px;" onclick="navegarPara('tela-login')">
+                    Sair da conta
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="navegarPara('tela-adicionar')"><i class="fas fa-plus"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-notificacoes')"><i class="fas fa-bell"></i><div class="badge">1</div></div>
+                <div class="nav-item" onclick="navegarPara('tela-home')"><i class="fas fa-home"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-configuracoes')"><i class="fas fa-cog"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-ajuda')"><i class="fas fa-question"></i></div>
+            </div>
+        </div>
+
+        <div id="tela-config-agua" class="screen">
+            <div class="content">
+                <div class="screen-header">
+                    <span class="clickable" onclick="navegarPara('tela-adicionar')"><i class="fas fa-reply"></i> Voltar</span>
+                    <i class="fas fa-user clickable" onclick="navegarPara('tela-usuario')"></i>
+                </div>
+                
+                <div class="limit-header water">
+                    <i class="fas fa-tint" style="color: black;"></i>
+                    <span>Configuração do Limite de Água</span>
+                </div>
+
+                <h3 style="margin-bottom: 10px; font-size: 16px;">Defina um Limite de consumo</h3>
+                <input type="text" class="input-limit" placeholder="Escreva o limite...">
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="navegarPara('tela-adicionar')"><i class="fas fa-plus"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-notificacoes')"><i class="fas fa-bell"></i><div class="badge">1</div></div>
+                <div class="nav-item" onclick="navegarPara('tela-home')"><i class="fas fa-home"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-configuracoes')"><i class="fas fa-cog"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-ajuda')"><i class="fas fa-question"></i></div>
+            </div>
+        </div>
+
+        <div id="tela-config-energia" class="screen">
+            <div class="content">
+                <div class="screen-header">
+                    <span class="clickable" onclick="navegarPara('tela-adicionar')"><i class="fas fa-reply"></i> Voltar</span>
+                    <i class="fas fa-user clickable" onclick="navegarPara('tela-usuario')"></i>
+                </div>
+                
+                <div class="limit-header energy">
+                    <i class="fas fa-bolt" style="color: black;"></i>
+                    <span>Configuração do Limite de Energia</span>
+                </div>
+
+                <h3 style="margin-bottom: 10px; font-size: 16px;">Defina um Limite de consumo</h3>
+                <input type="text" class="input-limit" placeholder="Escreva o limite...">
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="navegarPara('tela-adicionar')"><i class="fas fa-plus"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-notificacoes')"><i class="fas fa-bell"></i><div class="badge">1</div></div>
+                <div class="nav-item" onclick="navegarPara('tela-home')"><i class="fas fa-home"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-configuracoes')"><i class="fas fa-cog"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-ajuda')"><i class="fas fa-question"></i></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Função principal de navegação
+        function navegarPara(idTelaDestino) {
+            // Remove a classe 'active' de todas as telas
+            const telas = document.querySelectorAll('.screen');
+            telas.forEach(tela => tela.classList.remove('active'));
+
+            // Adiciona a classe 'active' na tela de destino
+            const telaDestino = document.getElementById(idTelaDestino);
+            if (telaDestino) {
+                telaDestino.classList.add('active');
+            }
+        }
+
+        // Função extra para animar os botões de toggle nas configurações
+        function alternarToggle(elementoToggle) {
+            if (elementoToggle.classList.contains('off')) {
+                elementoToggle.classList.remove('off');
+            } else {
+                elementoToggle.classList.add('off');
+            }
+        }
+    </script>
+</body>
+</html>
