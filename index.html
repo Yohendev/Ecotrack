@@ -35,7 +35,6 @@
         justify-content: center;
     }
 
-    /* Container que simula o celular */
     .smartphone {
         width: 360px;
         height: 780px;
@@ -49,7 +48,6 @@
         flex-direction: column;
     }
 
-    /* Barra de Status Falsa do Topo */
     .status-bar {
         height: 40px;
         display: flex;
@@ -75,9 +73,8 @@
         z-index: 20;
     }
 
-    /* Gerenciamento de Telas */
     .screen {
-        display: none; /* Oculta todas as telas por padrão */
+        display: none;
         flex: 1;
         flex-direction: column;
         height: calc(100% - 40px);
@@ -85,10 +82,9 @@
     }
 
     .screen.active {
-        display: flex; /* Mostra apenas a tela ativa */
+        display: flex;
     }
 
-    /* Área de Conteúdo Rolável */
     .content {
         flex: 1;
         overflow-y: auto;
@@ -100,12 +96,10 @@
         display: none;
     }
 
-    /* Navegação e Cliques */
     .clickable {
         cursor: pointer;
     }
 
-    /* Cabeçalhos Internos (Voltar, Perfil) */
     .screen-header {
         display: flex;
         justify-content: space-between;
@@ -119,7 +113,6 @@
         cursor: pointer;
     }
 
-    /* Menu Inferior */
     .bottom-nav {
         position: absolute;
         bottom: 0;
@@ -168,7 +161,6 @@
         align-items: center;
     }
 
-    /* Estilos Login */
     .login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
     .logo-container { text-align: center; margin-bottom: 30px; }
     .logo-icon { font-size: 80px; color: var(--blue-water); }
@@ -182,8 +174,8 @@
     .btn-google { background-color: var(--btn-gray); color: var(--text-dark); display: flex; align-items: center; justify-content: center; gap: 10px; }
     .divider { text-align: center; font-size: 12px; color: var(--text-muted); margin: 5px 0 15px; }
     .terms { font-size: 10px; text-align: center; color: var(--text-muted); margin-top: 20px; }
+    .instruction-text { font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 20px; width: 100%; }
 
-    /* Estilos Home */
     .section-title { font-size: 18px; font-weight: bold; margin: 15px 0 10px; }
     .card { padding: 15px; border-radius: var(--border-radius-lg); margin-bottom: 10px; position: relative; overflow: hidden; }
     .card-water { background-color: var(--blue-water); color: white; }
@@ -199,25 +191,29 @@
     .btn-action { background-color: var(--btn-gray); padding: 10px 30px; border-radius: var(--border-radius-lg); font-weight: bold; border: none; cursor: pointer; }
     .warning-banner { background-color: #89cff0; padding: 15px; border-radius: var(--border-radius-sm); font-size: 12px; font-weight: bold; text-align: center; margin-top: 20px; display: flex; align-items: center; gap: 10px; }
 
-    /* Estilos Notificações & Listas */
     .list-card { background-color: #e6e6e6; padding: 15px; border-radius: var(--border-radius-sm); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500;}
     .list-card p { margin-top: 5px; font-size: 12px; font-weight: normal; }
     .icon-green { color: #5cb85c; font-size: 18px; }
     .btn-clear { background-color: #d9d9d9; padding: 8px 15px; border-radius: 20px; font-size: 12px; border: none; font-weight: bold; display: block; margin: 30px auto 0; cursor: pointer; }
 
-    /* Estilos Adicionar / Limites */
     .limit-btn { display: flex; align-items: center; justify-content: space-between; padding: 20px; border-radius: var(--border-radius-lg); font-weight: bold; font-size: 16px; margin-bottom: 15px; cursor: pointer; }
     .limit-btn.water { background-color: var(--blue-water); color: black; }
     .limit-btn.energy { background-color: var(--yellow-energy); color: black; }
     .limit-btn i:first-child { font-size: 30px; }
     .limit-btn i:last-child { font-size: 24px; }
+    
     .limit-header { padding: 20px; border-radius: var(--border-radius-sm); display: flex; align-items: center; gap: 15px; font-weight: bold; margin-bottom: 30px; }
     .limit-header.water { background-color: var(--blue-water); color: black; }
     .limit-header.energy { background-color: var(--yellow-energy); color: black; }
     .limit-header i { font-size: 30px; }
+    
     .input-limit { background-color: #ccc; border: none; padding: 15px; border-radius: var(--border-radius-sm); width: 100%; font-size: 14px; outline: none; }
+    .btn-ok { padding: 15px 20px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; }
+    .btn-ok-water { background-color: var(--blue-water); color: white; }
+    .btn-ok-energy { background-color: var(--yellow-energy); color: black; }
 
-    /* Estilos Configurações & Perfil */
+    .info-text-block { font-size: 13px; line-height: 1.5; color: var(--text-dark); background: #fff; padding: 20px; border-radius: var(--border-radius-sm); }
+
     .settings-item { background-color: #fff; padding: 15px; border-radius: var(--border-radius-sm); margin-bottom: 10px; font-weight: bold; font-size: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;}
     .toggle { width: 40px; height: 20px; background-color: #5cb85c; border-radius: 10px; position: relative; }
     .toggle::after { content: ''; position: absolute; right: 2px; top: 2px; width: 16px; height: 16px; background-color: white; border-radius: 50%; transition: 0.3s;}
@@ -253,7 +249,7 @@
                     <input type="password" class="form-control" placeholder="Senha">
                 </div>
                 
-                <p class="forgot-pwd">Esqueci Minha Senha</p>
+                <p class="forgot-pwd" onclick="navegarPara('tela-esqueci-senha')">Esqueci Minha Senha</p>
                 
                 <button class="btn btn-black" onclick="navegarPara('tela-home')">Continuar</button>
                 <p class="divider">ou</p>
@@ -264,6 +260,50 @@
                 </button>
                 
                 <p class="terms">Após clicar em continuar, você concorda com nossos<br><b>Termos e condições</b> e <b>Politica de privacidade</b></p>
+            </div>
+        </div>
+
+        <div id="tela-esqueci-senha" class="screen">
+            <div class="content login-screen">
+                <div class="logo-container" style="margin-bottom: 20px;">
+                    <i class="fas fa-leaf logo-icon" style="color: #6da34d;"></i>
+                    <i class="fas fa-tint logo-icon" style="margin-left: -20px; font-size: 90px;"></i>
+                    <h1 class="logo-title">EcoTrack</h1>
+                </div>
+                
+                <p class="instruction-text" style="text-align: left;">Informe seu e-mail ou número de telefone para redefinir a senha</p>
+                
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="E-mail">
+                </div>
+                
+                <button class="btn btn-black" style="margin-top: 10px;" onclick="navegarPara('tela-esqueci-senha-2')">Continuar</button>
+            </div>
+        </div>
+
+        <div id="tela-esqueci-senha-2" class="screen">
+            <div class="content login-screen">
+                <div class="logo-container" style="margin-bottom: 20px;">
+                    <i class="fas fa-leaf logo-icon" style="color: #6da34d;"></i>
+                    <i class="fas fa-tint logo-icon" style="margin-left: -20px; font-size: 90px;"></i>
+                    <h1 class="logo-title">EcoTrack</h1>
+                </div>
+                
+                <p class="instruction-text" style="text-align: left;">Coloque o código recebido</p>
+                
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Código">
+                </div>
+                
+                <div class="form-group" style="margin-top: 10px;">
+                    <input type="password" class="form-control" placeholder="Nova senha">
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Confirme a nova senha">
+                </div>
+                
+                <button class="btn btn-black" style="margin-top: 10px;" onclick="navegarPara('tela-login')">Continuar</button>
             </div>
         </div>
 
@@ -328,7 +368,7 @@
                 
                 <div class="list-card">
                     <div>
-                        <div>Atenção!</div>
+                        <div style="font-weight: bold;">Atenção!</div>
                         <p>Limite do consumo de energia quase atingido!</p>
                     </div>
                     <i class="fas fa-exclamation-circle icon-green"></i>
@@ -336,7 +376,7 @@
                 
                 <div class="list-card">
                     <div>
-                        <div>Relatório</div>
+                        <div style="font-weight: bold;">Relatório</div>
                         <p>Aqui está seu relatório do consumo de água!</p>
                     </div>
                 </div>
@@ -395,11 +435,90 @@
                 <div class="settings-item" onclick="alternarToggle(this.querySelector('.toggle'))">
                     Tema (Claro/Escuro) <div class="toggle off"></div>
                 </div>
-                <div class="settings-item">Privacidade</div>
-                <div class="settings-item">Sobre o app</div>
+                <div class="settings-item" onclick="navegarPara('tela-privacidade')">Privacidade</div>
+                <div class="settings-item" onclick="navegarPara('tela-sobre')">Sobre o app</div>
+                <div class="settings-item" onclick="navegarPara('tela-dispositivos-iot')">Conectar Novo Dispositivo IoT</div>
 
-                <div class="settings-item text-red" style="margin-top: 250px;" onclick="navegarPara('tela-login')">
+                <div class="settings-item text-red" style="margin-top: 150px;" onclick="navegarPara('tela-login')">
                     Sair da conta
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="navegarPara('tela-adicionar')"><i class="fas fa-plus"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-notificacoes')"><i class="fas fa-bell"></i><div class="badge">1</div></div>
+                <div class="nav-item" onclick="navegarPara('tela-home')"><i class="fas fa-home"></i></div>
+                <div class="nav-item active"><i class="fas fa-cog"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-ajuda')"><i class="fas fa-question"></i></div>
+            </div>
+        </div>
+        
+        <div id="tela-dispositivos-iot" class="screen">
+            <div class="content">
+                <div class="screen-header">
+                    <span class="clickable" onclick="navegarPara('tela-configuracoes')"><i class="fas fa-reply"></i> Voltar</span>
+                    <i class="fas fa-user clickable" onclick="navegarPara('tela-usuario')"></i>
+                </div>
+                
+                <div class="list-card" style="flex-direction: column; align-items: flex-start;">
+                    <div style="font-weight: bold;">Dispositivo 1</div>
+                    <p>Este é o Disposivo de consumo de energia</p>
+                </div>
+                
+                <div class="list-card" style="flex-direction: column; align-items: flex-start;">
+                    <div style="font-weight: bold;">Dispositivo 2</div>
+                    <p>Este é o Disposivo de consumo de água</p>
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="navegarPara('tela-adicionar')"><i class="fas fa-plus"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-notificacoes')"><i class="fas fa-bell"></i><div class="badge">1</div></div>
+                <div class="nav-item" onclick="navegarPara('tela-home')"><i class="fas fa-home"></i></div>
+                <div class="nav-item active"><i class="fas fa-cog"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-ajuda')"><i class="fas fa-question"></i></div>
+            </div>
+        </div>
+
+        <div id="tela-sobre" class="screen">
+            <div class="content">
+                <div class="screen-header">
+                    <span class="clickable" onclick="navegarPara('tela-configuracoes')"><i class="fas fa-reply"></i> Voltar</span>
+                    <i class="fas fa-user clickable" onclick="navegarPara('tela-usuario')"></i>
+                </div>
+                
+                <h3 style="text-align: center; margin-bottom: 20px;">Sobre o app</h3>
+                
+                <div class="info-text-block">
+                    <strong>Bem-vindo ao<br>EcoTrack!</strong><br><br>
+                    O EcoTrack é o seu aliado inteligente na gestão de recursos residenciais. Nosso objetivo é ajudar você a monitorar o consumo de água e energia elétrica em tempo real, permitindo que você tome decisões mais conscientes. Com o EcoTrack, você pode definir metas, evitar desperdícios e transformar hábitos, garantindo mais sustentabilidade e economia na sua conta ao final do mês.
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="navegarPara('tela-adicionar')"><i class="fas fa-plus"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-notificacoes')"><i class="fas fa-bell"></i><div class="badge">1</div></div>
+                <div class="nav-item" onclick="navegarPara('tela-home')"><i class="fas fa-home"></i></div>
+                <div class="nav-item active"><i class="fas fa-cog"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-ajuda')"><i class="fas fa-question"></i></div>
+            </div>
+        </div>
+
+        <div id="tela-privacidade" class="screen">
+            <div class="content">
+                <div class="screen-header">
+                    <span class="clickable" onclick="navegarPara('tela-configuracoes')"><i class="fas fa-reply"></i> Voltar</span>
+                    <i class="fas fa-user clickable" onclick="navegarPara('tela-usuario')"></i>
+                </div>
+                
+                <h3 style="text-align: center; margin-bottom: 20px;">Privacidade e Segurança</h3>
+                
+                <div class="info-text-block" style="font-size: 12px;">
+                    <strong>Dados Coletados:</strong> Coletamos apenas as informações de consumo (água/energia) e dados de perfil necessários para o funcionamento do app.<br><br>
+                    <strong>Uso dos Dados:</strong> Suas informações servem exclusivamente para exibir métricas e enviar alertas de limite de consumo.<br><br>
+                    <strong>Proteção:</strong> Seus dados são criptografados e armazenados em servidores seguros.<br><br>
+                    <strong>Compartilhamento:</strong> Não vendemos nem compartilhamos seus dados pessoais com terceiros.<br><br>
+                    <strong>Seu Controle:</strong> Você tem total autonomia para editar ou excluir sua conta e todos os seus dados a qualquer momento, diretamente na opção sair da conta.
                 </div>
             </div>
             
@@ -419,9 +538,91 @@
                     <i class="fas fa-user clickable" onclick="navegarPara('tela-usuario')"></i>
                 </div>
                 
-                <div class="settings-item">Significado de cada unidade de medida</div>
-                <div class="settings-item">Como adicionar um limite?</div>
-                <div class="settings-item">Como conectar a IOT?</div>
+                <div class="settings-item" onclick="navegarPara('tela-unidades-medida')">Significado de cada unidade de medida</div>
+                <div class="settings-item" onclick="navegarPara('tela-como-limite')">Como adicionar um limite?</div>
+                <div class="settings-item" onclick="navegarPara('tela-como-iot')">Como conectar a IOT?</div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="navegarPara('tela-adicionar')"><i class="fas fa-plus"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-notificacoes')"><i class="fas fa-bell"></i><div class="badge">1</div></div>
+                <div class="nav-item" onclick="navegarPara('tela-home')"><i class="fas fa-home"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-configuracoes')"><i class="fas fa-cog"></i></div>
+                <div class="nav-item active"><i class="fas fa-question"></i></div>
+            </div>
+        </div>
+        
+        <div id="tela-unidades-medida" class="screen">
+            <div class="content">
+                <div class="screen-header">
+                    <span class="clickable" onclick="navegarPara('tela-ajuda')"><i class="fas fa-reply"></i> Voltar</span>
+                    <i class="fas fa-user clickable" onclick="navegarPara('tela-usuario')"></i>
+                </div>
+                
+                <h3 style="text-align: center; margin-bottom: 20px;">Unidades de medida</h3>
+                
+                <div class="card card-water" style="display: flex; align-items: center; gap: 15px; border-radius: var(--border-radius-sm);">
+                    <i class="fas fa-tint" style="font-size: 30px; color: black; min-width: 30px; text-align: center;"></i>
+                    <div style="font-size: 12px; color: black;"><strong>Água (m³):</strong> Unidade de volume. Cada 1 m³ equivale a 1.000 litros de água.</div>
+                </div>
+                
+                <div class="card card-energy" style="display: flex; align-items: center; gap: 15px; margin-top: 15px; border-radius: var(--border-radius-sm);">
+                    <i class="fas fa-bolt" style="font-size: 30px; color: black; min-width: 30px; text-align: center;"></i>
+                    <div style="font-size: 12px; color: black;"><strong>Energia (kWh):</strong> Medida de consumo elétrico. Indica o total de energia utilizada pelos seus aparelhos.</div>
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="navegarPara('tela-adicionar')"><i class="fas fa-plus"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-notificacoes')"><i class="fas fa-bell"></i><div class="badge">1</div></div>
+                <div class="nav-item" onclick="navegarPara('tela-home')"><i class="fas fa-home"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-configuracoes')"><i class="fas fa-cog"></i></div>
+                <div class="nav-item active"><i class="fas fa-question"></i></div>
+            </div>
+        </div>
+
+        <div id="tela-como-limite" class="screen">
+            <div class="content">
+                <div class="screen-header">
+                    <span class="clickable" onclick="navegarPara('tela-ajuda')"><i class="fas fa-reply"></i> Voltar</span>
+                    <i class="fas fa-user clickable" onclick="navegarPara('tela-usuario')"></i>
+                </div>
+                
+                <h3 style="text-align: center; margin-bottom: 20px;">Como adicionar um limite?</h3>
+                
+                <div class="info-text-block">
+                    Toque no ícone "+" localizado no menu inferior.<br><br>
+                    Escolha a opção "Adicionar limite de água" ou "Adicionar limite de energia".<br><br>
+                    Insira o valor máximo que você deseja permitir para aquele período.<br><br>
+                    Toque em OK.<br><br>
+                    O app irá monitorar o uso e enviará uma notificação caso você se aproxime do valor definido.
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="navegarPara('tela-adicionar')"><i class="fas fa-plus"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-notificacoes')"><i class="fas fa-bell"></i><div class="badge">1</div></div>
+                <div class="nav-item" onclick="navegarPara('tela-home')"><i class="fas fa-home"></i></div>
+                <div class="nav-item" onclick="navegarPara('tela-configuracoes')"><i class="fas fa-cog"></i></div>
+                <div class="nav-item active"><i class="fas fa-question"></i></div>
+            </div>
+        </div>
+
+        <div id="tela-como-iot" class="screen">
+            <div class="content">
+                <div class="screen-header">
+                    <span class="clickable" onclick="navegarPara('tela-ajuda')"><i class="fas fa-reply"></i> Voltar</span>
+                    <i class="fas fa-user clickable" onclick="navegarPara('tela-usuario')"></i>
+                </div>
+                
+                <h3 style="text-align: center; margin-bottom: 20px;">Como conectar a IOT?</h3>
+                
+                <div class="info-text-block">
+                    Certifique-se de que o seu sensor IoT esteja ligado e próximo ao seu smartphone.<br><br>
+                    Coloque o dispositivo em Modo de Pareamento (verifique o manual do seu hardware).<br><br>
+                    No aplicativo, vá até a aba Configurações e selecione "Conectar novo dispositivo".<br><br>
+                    O app buscará automaticamente pelo seu sensor. Quando aparecer na lista, toque sobre ele para concluir a conexão via Bluetooth ou Wi-Fi.
+                </div>
             </div>
             
             <div class="bottom-nav">
@@ -476,7 +677,10 @@
                 </div>
 
                 <h3 style="margin-bottom: 10px; font-size: 16px;">Defina um Limite de consumo</h3>
-                <input type="text" class="input-limit" placeholder="Escreva o limite...">
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="text" class="input-limit" placeholder="Escreva o limite..." style="flex: 1;">
+                    <button class="btn-ok btn-ok-water" onclick="navegarPara('tela-home')">Ok</button>
+                </div>
             </div>
             
             <div class="bottom-nav">
@@ -501,7 +705,10 @@
                 </div>
 
                 <h3 style="margin-bottom: 10px; font-size: 16px;">Defina um Limite de consumo</h3>
-                <input type="text" class="input-limit" placeholder="Escreva o limite...">
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="text" class="input-limit" placeholder="Escreva o limite..." style="flex: 1;">
+                    <button class="btn-ok btn-ok-energy" onclick="navegarPara('tela-home')">Ok</button>
+                </div>
             </div>
             
             <div class="bottom-nav">
@@ -516,20 +723,16 @@
     </div>
 
     <script>
-        // Função principal de navegação
         function navegarPara(idTelaDestino) {
-            // Remove a classe 'active' de todas as telas
             const telas = document.querySelectorAll('.screen');
             telas.forEach(tela => tela.classList.remove('active'));
 
-            // Adiciona a classe 'active' na tela de destino
             const telaDestino = document.getElementById(idTelaDestino);
             if (telaDestino) {
                 telaDestino.classList.add('active');
             }
         }
 
-        // Função extra para animar os botões de toggle nas configurações
         function alternarToggle(elementoToggle) {
             if (elementoToggle.classList.contains('off')) {
                 elementoToggle.classList.remove('off');
